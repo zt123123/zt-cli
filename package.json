@@ -1,17 +1,16 @@
 {
   "name": "zt123123-cli",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "a cli just for fun",
   "main": "index.js",
   "bin": {
-    "zt1": "./bin/index"
+    "zt": "./bin/index"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "@darkobits/lolcatjs": "^3.1.2",
     "chalk": "^2.4.2",
@@ -20,5 +19,18 @@
     "inquirer": "^6.3.1",
     "ora": "^3.4.0",
     "shelljs": "^0.8.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zt123123/zt-cli.git"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "zhang_tian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zt123123/zt-cli/issues"
+  },
+  "homepage": "https://github.com/zt123123/zt-cli#readme",
 }
