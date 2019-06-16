@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+var program = require('commander');
+var shell = require('shelljs');
+const Printer = require('@darkobits/lolcatjs');
+const chalk = require('chalk');
+const inquirer = require('inquirer');
+const ora = require('ora');
+const download = require('download-git-repo');
+const path = require('path');
+const template = 'direct:https://github.com/zt123123/jianshu-react.git';
+const logo = [
+  "    /¯¯¯¯\\     ",
+  "  o-|[][]|-o   ",
+  "    |_--_|     ",
+  " /¯¯¯¯¯¯¯¯¯¯\\  ",
+  " |||  «»  |||  ",
+  " |||      |||  ",
+  "(o)|      |(o)",
+  "   |  ||  |    ",
+  "   |__||__|    ",
+  "   |__||__|    ",
+  "zt cli v1.0"
+].join('\n');
+const transformed = Printer.default.fromString(logo);
+program.version(transformed, '-v, --version')
+
+const commandHandler = {
+  init(arg) {
+    inquirer.prompt([
+      {
+        type: 'list',
+        message: "choose a language",
+        choices: ["TS", "JS"],
+        name: "language",
+      }, {
+        type: 'text',
+        message: 'enter dir name',
+        name: 'dirname'
+      }
+    ]).then(answer => {
+      const projectDir = path.resolve(__dirname, '../', answer.dirname);
+      const spinner = ora('download ....').start();
+
+      if (__dirname) {
+        shell.rm("-rf", projectDir);
+        shell.mkdir(projectDir);
+
+        download(template, projectDir, { clone: true }, err => {
+          spinner.stop();
+          console.log(chalk.green("恭喜😄，下载完成"));
+        });
+      }
+    });
+  }
+}
+
+program
+  .command('mk <dir>')
+  .option('-r, --recursive', 'create dir')
+  .action(function (dir, cmd) {
+    shell.mkdir(dir)
+  })
+program.usage("[cmd] <options>")
+  .arguments("<cmd> [env]")
+  .action((cmd, params) => {
+    const handler = commandHandler[cmd];
+    if (handler) {
+      handler(params);
+    } else {
+      console.log(chalk.yellow('😢没找到命令'));
+      process.exit(1);
+    }
+  })
+program.parse(process.argv);
