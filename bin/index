@@ -10,16 +10,13 @@ const download = require('download-git-repo');
 const path = require('path');
 const template = 'direct:https://github.com/zt123123/jianshu-react.git';
 let version = '';
-fs.readFile(path.resolve(__dirname, '../package.json'), function(err, data){
-  try {
-    if(!err){
-      const content = data.toString();
-      version = JSON.parse(content).version;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-})
+
+try {
+  const content = fs.readFileSync(path.resolve(__dirname, '../package.json'), "utf8")
+  version = JSON.parse(content).version;
+} catch (error) {
+  console.log(error);
+}
 
 const logo = [
   "    /¯¯¯¯\\     ",
@@ -53,7 +50,7 @@ const commandHandler = {
     ]).then(answer => {
       const projectDir = path.resolve(process.cwd(), answer.dirname);
       const spinner = ora('download ....').start();
-      fs.exists(projectDir, function(exists) {
+      fs.exists(projectDir, function (exists) {
         console.log(chalk.yellow(`${projectDir}目录已存在,已经删除并创建新目录!!!`));
         if (exists) {
           shell.rm("-rf", projectDir);
