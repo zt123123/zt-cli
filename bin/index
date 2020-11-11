@@ -10,7 +10,7 @@ const download = require('download-git-repo');
 const path = require('path');
 const template = 'direct:https://github.com/zt123123/jianshu-react.git';
 let version = '';
-fs.readFile('./package.json', function(err, data){
+fs.readFile(path.resolve(__dirname, '../package.json'), function(err, data){
   try {
     if(!err){
       const content = data.toString();
