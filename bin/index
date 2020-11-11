@@ -49,18 +49,17 @@ const commandHandler = {
       }
     ]).then(answer => {
       const projectDir = path.resolve(process.cwd(), answer.dirname);
-      const spinner = ora('download ....').start();
       fs.exists(projectDir, function (exists) {
-        console.log(chalk.yellow(`${projectDir}目录已存在,已经删除并创建新目录!!!`));
         if (exists) {
           shell.rm("-rf", projectDir);
           shell.mkdir(projectDir);
-
-          download(template, projectDir, { clone: true }, err => {
-            spinner.stop();
-            console.log(chalk.green("恭喜😄，下载完成"));
-          });
+          console.log(chalk.yellow(`[${projectDir}]目录已存在,已经删除并创建新目录!!!`));
         }
+        const spinner = ora('download ....').start();
+        download(template, projectDir, { clone: true }, err => {
+          spinner.stop();
+          console.log(chalk.green("恭喜😄，下载完成"));
+        });
       });
     });
   }
